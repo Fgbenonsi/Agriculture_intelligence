@@ -93,7 +93,7 @@ def load_to_db(df):
 
 
 if __name__ == "__main__":
-    df = fetch_comex(start_year=2015, end_year=2025)
+    df = fetch_comex(start_year=1997, end_year=2025)
     if not df.empty:
         print(f"\nTotal rows: {len(df)}")
         print(df.head())

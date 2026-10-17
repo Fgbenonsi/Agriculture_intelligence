@@ -56,4 +56,4 @@ ORDER BY year DESC;
 SELECT year, value AS yoy_pct, z_score, severity
 FROM anomalies
 WHERE metric = 'production_yoy_zscore_10y'
-ORDER BY year DESC;
+ORDER BY year DESC; 

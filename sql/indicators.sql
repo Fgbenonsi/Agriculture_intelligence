@@ -101,3 +101,59 @@ FROM indicators
 WHERE metric = 'production_cagr_3yr_pct'
 ORDER BY year DESC
 LIMIT 10;
+
+
+-- ============================================
+-- INDICATORS: YoY Area Harvested Growth
+-- ============================================
+
+INSERT INTO indicators (country, scope, scope_code, crop, year, metric, value)
+SELECT
+    'BRA' AS country,
+    'national' AS scope,
+    'BR' AS scope_code,
+    'soybean' AS crop,
+    year,
+    'area_yoy_pct' AS metric,
+    ROUND(
+        100.0 * (area_harvested_ha - LAG(area_harvested_ha) OVER (ORDER BY year))
+        / NULLIF(LAG(area_harvested_ha) OVER (ORDER BY year), 0),
+        2
+    ) AS value
+FROM production
+WHERE country = 'BRA' AND crop = 'soybean' AND state_name = 'Brazil'
+ORDER BY year;
+
+
+-- ============================================
+-- INDICATORS: YoY Yield Growth
+-- ============================================
+
+INSERT INTO indicators (country, scope, scope_code, crop, year, metric, value)
+SELECT
+    'BRA' AS country,
+    'national' AS scope,
+    'BR' AS scope_code,
+    'soybean' AS crop,
+    year,
+    'yield_yoy_pct' AS metric,
+    ROUND(
+        100.0 * (yield_kg_ha - LAG(yield_kg_ha) OVER (ORDER BY year))
+        / NULLIF(LAG(yield_kg_ha) OVER (ORDER BY year), 0),
+        2
+    ) AS value
+FROM production
+WHERE country = 'BRA' AND crop = 'soybean' AND state_name = 'Brazil'
+ORDER BY year;
+
+
+
+SELECT
+    year,
+    MAX(CASE WHEN metric = 'area_yoy_pct' THEN value END) AS area_yoy,
+    MAX(CASE WHEN metric = 'yield_yoy_pct' THEN value END) AS yield_yoy
+FROM indicators
+WHERE metric IN ('area_yoy_pct', 'yield_yoy_pct')
+GROUP BY year
+ORDER BY year DESC
+LIMIT 10;
