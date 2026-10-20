@@ -6,3 +6,5 @@ __pycache__/
 .streamlit/secrets.toml
 Agri Intel.session.sql
 .vscode/settings.json
+agri_intel_dump.sql
+data/
