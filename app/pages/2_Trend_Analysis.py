@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from db import get_engine
+from db import get_engine_cloud as get_engine
 
 st.set_page_config(page_title="Trend Analysis", page_icon="📈", layout="wide")
 
