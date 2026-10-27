@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from dotenv import load_dotenv
@@ -42,7 +42,27 @@ print(f"R²:   {r2_score(y_test, y_pred):.2f}")
 
 importance = pd.DataFrame({
     "feature": features,
-    "importance": model.feature_importances_.round(3),
+    "importance": model.feature_importances_.round(4),
 }).sort_values("importance", ascending=False)
 print("\nTop 10 features:")
 print(importance.head(10).to_string(index=False))
+
+# --- Save predictions and feature importance ---
+pred_df = pd.DataFrame({
+    "harvested": test["harvested"].values,
+    "code": test["code"].values,
+    "state": test["state"].values,
+    "county": test["county"].values,
+    "actual_yield_corrected": test[target].values,
+    "predicted_yield_corrected": y_pred.round(2),
+})
+
+with engine.begin() as conn:
+    conn.execute(text("DROP TABLE IF EXISTS soybean_forecasts"))
+pred_df.to_sql("soybean_forecasts", engine, index=False)
+print(f"\nSaved {len(pred_df)} predictions to soybean_forecasts")
+
+with engine.begin() as conn:
+    conn.execute(text("DROP TABLE IF EXISTS soybean_feature_importance"))
+importance.to_sql("soybean_feature_importance", engine, index=False)
+print("Saved feature importance")
