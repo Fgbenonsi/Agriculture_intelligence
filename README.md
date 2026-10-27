@@ -76,3 +76,13 @@ DATABASE_URL=postgresql+psycopg2://user:password@host:port/database
 ```bash
 streamlit run app/app.py
 ```
+
+## Machine Learning
+
+A Random Forest model was trained to predict municipal soybean yield in Brazil using the Unicamp dataset (170,240 monthly records, 1,216 municipalities, 7 states, 2001–2020). The target was detrended yield (`yield_trend_corrected`), with climate, vegetation indices, and drought indicators as features.
+
+**Result:** R² = 0.03, MAE = 460 kg/ha on the 2016–2020 test set.
+
+The model's weak performance is itself a finding: climate and vegetation variables alone explain very little of the year-to-year variation in detrended soybean yield. Most of the signal is likely in management, pests, genetics, and measurement error — variables not present in this dataset.
+
+Previous attempts using national-level data (17 rows) failed entirely (R² negative). The municipal dataset made the model possible, even if the signal remains weak.
