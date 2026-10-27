@@ -86,3 +86,11 @@ A Random Forest model was trained to predict municipal soybean yield in Brazil u
 The model's weak performance is itself a finding: climate and vegetation variables alone explain very little of the year-to-year variation in detrended soybean yield. Most of the signal is likely in management, pests, genetics, and measurement error — variables not present in this dataset.
 
 Previous attempts using national-level data (17 rows) failed entirely (R² negative). The municipal dataset made the model possible, even if the signal remains weak.
+
+## Weather Data
+
+Station-level weather from INMET BDMEP (7 stations, 2000–2025) and gap-free NASA POWER data for the four main soybean states. The Weather page in the dashboard shows temperature and rainfall trends per station.
+
+Data sources:
+- INMET BDMEP — 7 conventional stations
+- NASA POWER — daily precipitation, temperature, humidity for MT, PR, RS, GO
