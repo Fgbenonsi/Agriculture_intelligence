@@ -8,3 +8,6 @@ Agri Intel.session.sql
 .vscode/settings.json
 agri_intel_dump.sql
 data/
+inmet-2023-plan.json
+inmet-plan.json
+weather_7stations.parquet
